@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Imagine - Business Landing Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background-color: #ffffff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 10%;
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .logo span {
+      color: #3366ff;
+    }
+
+    nav a,
+    .btn,
+    .dropdown-btn {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a,
+    .dropdown-content a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #222;
+      font-weight: 500;
+    }
+
+    nav a:hover,
+    .dropdown-content a:hover,
+    .btn:hover {
+      color: #3366ff;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      flex-direction: column;
+    }
+
+    .dropdown-content a {
+      padding: 10px 16px;
+      display: block;
+      color: #222;
+    }
+
+    .dropdown.open > .dropdown-content {
+      display: flex;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 50px 10%;
+      flex-wrap: wrap;
+    }
+
+    .text-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .text-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #111;
+    }
+
+    .text-content p {
+      color: #666;
+      margin-bottom: 30px;
+      max-width: 500px;
+    }
+
+    .btn {
+      background-color: #4f8bff;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(79, 139, 255, 0.3);
+    }
+
+    .image-content {
+      flex: 1;
+      text-align: center;
+      min-width: 300px;
+      padding: 20px;
+    }
+
+    .image-content img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+    }
+
+    .menu-btn {
+      display: none;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 250px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      transition: right 0.3s ease-in-out;
+      z-index: 200;
+    }
+
+    .mobile-nav.open {
+      right: 0;
+    }
+
+   .mobile-nav button.close-btn {
+  align-self: flex-end;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  color: #000;
+  position: relative;
+  top: 0px;
+  right: 0px;
+  
+}
+
+
+    .mobile-nav a,
+    .mobile-nav .dropdown-btn {
+      text-decoration: none;
+      color: #222;
+      padding: 10px 0;
+      font-weight: 500;
+    }
+
+    .mobile-nav a:hover,
+    .mobile-nav .dropdown-btn:hover,
+    .mobile-nav .tapped {
+      color: #3366ff !important;
+    }
+
+    .mobile-dropdown {
+      display: none;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+
+    .mobile-dropdown.open {
+      display: flex;
+    }
+
+    .dropdown-btn {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      padding: 10px 0;
+      text-align: left;
+      color: #222;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+        color: #000;
+      }
+
+      .container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .text-content h1 {
+        font-size: 2.2rem;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .image-content img {
+        max-width: 100%;
+      }
+    }
+
+    /* Features Card Styling */
+    .feature-card {
+      background: #f7f7f7;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .feature-card.animate {
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-card:hover {
+      background-color: #3366ff;
+      color: white;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .feature-card:hover h3,
+    .feature-card:hover p,
+    .feature-card:hover a {
+      color: white;
+    }
+
+    .feature-card:hover img {
+      filter: brightness(0) invert(1);
+    }
+
+.animated-feature {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 60px;
+  gap: 40px;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.animated-feature.animate {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.slide-in-left,
+.slide-in-right {
+  flex: 1;
+  min-width: 280px;
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.slide-in-left {
+  transform: translateX(-50px);
+}
+
+.slide-in-left.animate,
+.slide-in-right.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.team-member {
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.member-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.member-image-wrapper img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+}
+
+.social-icons {
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.team-member:hover .social-icons {
+  bottom: 15px;
+  opacity: 1;
+}
+
+.social-icons a {
+  color: #fff;
+  background: #3366ff;
+  padding: 8px;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.social-icons a:hover {
+  transform: scale(1.1);
+}
+
+
+.testimonial-carousel {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+}
+
+.testimonial-slide {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.testimonial-slide.active {
+  display: flex;
+}
+
+.testimonial-slide img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.testimonial-slide p {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: #666;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.testimonial-slide h4 {
+  font-weight: bold;
+  color: #000;
+}
+
+.testimonial-dots {
+  margin-top: 20px;
+}
+
+.testimonial-dots .dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  background-color: #ddd;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.testimonial-dots .dot.active {
+  background-color: #3366ff;
+}
+
+
+.name-fields {
+  display: flex;
+  gap: 10px;
+}
+
+.name-fields input {
+  flex: 1;
+  padding: 10px;
+}
+
+/* On mobile screens, stack the fields vertically */
+@media (max-width: 600px) {
+  .name-fields {
+    flex-direction: column;
+  }
+
+  .name-fields input {
+    width: 100%;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">imagine<span>.</span></div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#features">Features</a>
+      <div class="dropdown" id="aboutDropdown">
+        <a href="#about" class="dropdown-btn">About Us ▸</a>
+        <div class="dropdown-content">
+          <a href="#our-team">Our Team</a>
+          <div class="dropdown" id="moreLinksDropdown">
+            <a href="#" class="dropdown-btn">More Links ▸</a>
+            <div class="dropdown-content">
+              <a href="#">Menu One</a>
+              <a href="#">Menu Two</a>
+              <a href="#">Menu Three</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <button class="close-btn" id="closeBtn">×</button>
+    <a href="#">Home</a>
+    <a href="#features">Features</a>
+   <div>
+  <a href="#about">About Us</a> <!-- This links directly to the About Us section -->
+
+  <button class="dropdown-btn" id="mobileAboutDropdown">▸</button>
+  <div class="mobile-dropdown" id="mobileAboutDropdownContent">
+    <a href="#">Our Team</a>
+    <div>
+      <button class="dropdown-btn" id="mobileMoreLinksDropdown">More Links ▸</button>
+      <div class="mobile-dropdown" id="mobileMoreLinksDropdownContent">
+        <a href="#">Menu One</a>
+        <a href="#">Menu Two</a>
+        <a href="#">Menu Three</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <a href="#testimonials">Testimonials</a>
+
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <!-- Home Section -->
+  <section class="container">
+    <div class="text-content">
+      <h1>Make Your Business<br>More Profitable</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam assumenda ea quo cupiditate facere deleniti fuga officia.</p>
+      <button class="btn">Get Started</button>
+    </div>
+    <div class="image-content">
+      <img src="img.png" alt="Chart Graphic" />
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" style="padding: 60px 10%; background: #ffffff;">
+    <h2 style="font-size: 2rem; color: #111; text-align: center; margin-bottom: 10px;">Imagine Features</h2>
+    <p style="color: #666; text-align: center; max-width: 700px; margin: 0 auto 40px;">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga quos quaerat sapiente nam, id vero.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+      <!-- Feature cards (No inline styles!) -->
+      <div class="feature-card">
+        <div style="margin-bottom: 20px;"><img src="https://img.icons8.com/ios-filled/50/4a90e2/refresh.png" alt="icon"></div>
+        <h3>Marketing Consulting</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+        <a href="#">Learn More</a>
+      </div>
+      <div class="feature-card">
+        <div style="margin-bottom: 20px;"><img src="https://img.icons8.com/ios-filled/50/4a90e2/combo-chart.png" alt="icon"></div>
+        <h3>Market Analysis</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+        <a href="#">Learn More</a>
+      </div>
+      <div class="feature-card">
+        <div style="margin-bottom: 20px;"><img src="https://img.icons8.com/ios-filled/50/4a90e2/shopping-bag.png" alt="icon"></div>
+        <h3>Easy Purchase</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+        <a href="#">Learn More</a>
+      </div>
+      <div class="feature-card">
+        <div style="margin-bottom: 20px;"><img src="https://img.icons8.com/ios-filled/50/4a90e2/refresh.png" alt="icon"></div>
+        <h3>Free Updates</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+        <a href="#">Learn More</a>
+      </div>
+      <div class="feature-card">
+        <div style="margin-bottom: 20px;"><img src="https://img.icons8.com/ios-filled/50/4a90e2/like.png" alt="icon"></div>
+        <h3>100% Satisfied</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+        <a href="#">Learn More</a>
+      </div>
+      <div class="feature-card">
+        <div style="margin-bottom: 20px;"><img src="https://img.icons8.com/ios-filled/50/4a90e2/plugin.png" alt="icon"></div>
+        <h3>Easy Plugin</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis quis molestiae vitae eligendi at.</p>
+        <a href="#">Learn More</a>
+      </div>
+    </div>
+
+   <!-- New Animated Feature Section -->
+<div class="animated-feature">
+  <!-- Left Image -->
+  <div class="slide-in-left">
+    <img src="img1.png" alt="Feedback Illustration" style="width: 100%; max-width: 500px;" />
+  </div>
+
+  <!-- Right Text & Testimonial -->
+  <div class="slide-in-right">
+    <h2 style="font-size: 2rem; margin-bottom: 10px;">Communicate and<br>gather feedback</h2>
+    <p style="color: #666; margin-bottom: 30px;">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem neque nisi architecto autem molestias corrupti officia veniam.
+    </p>
+
+    <!-- Testimonial Card -->
+    <div style="display: flex; gap: 15px; align-items: center; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 500px;">
+      <img src="img2.jpeg" alt="Grey Simpson" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <strong>Grey Simpson</strong><br />
+        <span style="color: #666;">Co-Founder, XYZ Inc.</span>
+        <p style="font-style: italic; color: #666; margin-top: 10px;">
+          “Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus vitae ipsa asperiores inventore aperiam iure?”
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Animated Feature Section -->
+<div class="animated-feature">
+  <!-- Left Text & Testimonial -->
+  <div class="slide-in-left">
+    <h2 style="font-size: 2rem; margin-bottom: 10px;">Communicate and<br>gather feedback</h2>
+    <p style="color: #666; margin-bottom: 30px;">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem neque nisi architecto autem molestias corrupti officia veniam.
+    </p>
+
+    <!-- Testimonial Card -->
+    <div style="display: flex; gap: 15px; align-items: center; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); max-width: 500px;">
+      <img src="img4.jpg" alt="Kimberly Gush" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+      <div>
+        <strong>Kimberly Gush</strong><br />
+        <span style="color: #666;">Co-Founder, XYZ Inc.</span>
+        <p style="font-style: italic; color: #666; margin-top: 10px;">
+          “Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus vitae ipsa asperiores inventore aperiam iure?”
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Image -->
+  <div class="slide-in-right">
+    <img src="img3.png" alt="Analytics Illustration" style="width: 100%; max-width: 500px;" />
+  </div>
+</div>
+
+<!-- About Us Section -->
+<section id="about" style="padding: 60px 10%; background-color: #f9f9f9;">
+  <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 40px;">About Us</h2>
+  <div class="animated-feature">
+    <!-- Left Image -->
+    <div class="slide-in-left">
+      <img src="img5.png" alt="About Illustration" style="width: 100%; max-width: 500px;" />
+    </div>
+
+    <!-- Right Text Content -->
+    <div class="slide-in-right" style="flex: 1; min-width: 280px;">
+      <h3 style="font-size: 1.8rem; margin-bottom: 10px;">Our Mission</h3>
+      <p style="color: #666; margin-bottom: 20px;">
+        Eos cumque optio dolores excepturi rerum temporibus magni recusandae eveniet, totam omnis consectetur maxime quibusdam expedita dolorem dolor nobis dicta labore quaerat esse magnam unde, aperiam delectus! At maiores, itaque.
+      </p>
+      <ul style="list-style: none; padding-left: 0; margin-bottom: 30px; color: #666;">
+        <li>✅ Laborum enim quasi at modi</li>
+        <li>✅ Ad at tempore</li>
+        <li>✅ Labore quaerat esse</li>
+      </ul>
+      <button class="btn">Learn More</button>
+    </div>
+  </div>
+</section>
+
+
+  </section>
+
+<!-- Our Team Section -->
+<section id="our-team" style="padding: 60px 10%; background: #ffffff;">
+  <h2 style="text-align: center; font-size: 2rem; margin-bottom: 10px;">Our Team</h2>
+  <p style="text-align: center; max-width: 600px; margin: 0 auto 40px; color: #666;">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga quos quaerat sapiente nam, id vero.
+  </p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+    <!-- Team Member -->
+    <div class="team-member slide-in">
+  <div class="member-image-wrapper">
+    <img src="img4.jpg" alt="Cloe Marena" />
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <h4>Cloe Marena</h4>
+  <span class="position">President</span>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+  <div class="team-member slide-in">
+  ...
+</div>
+
+
+</div>
+
+    <div class="team-member slide-in">
+  <div class="member-image-wrapper">
+    <img src="img6.jpg" alt="Jhon Rooster" />
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <h4>Jhon Rooster</h4>
+  <span class="position">Marketing</span>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+<div class="team-member slide-in">
+  ...
+</div>
+
+
+</div>
+
+
+    <div class="team-member slide-in">
+  <div class="member-image-wrapper">
+    <img src="img7.jpg" alt="Will Turner" />
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <h4>Will Turner</h4>
+  <span class="position">Marketing</span>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+<div class="team-member slide-in">
+  ...
+</div>
+
+
+</div>
+
+    <div class="team-member slide-in">
+  <div class="member-image-wrapper">
+    <img src="img2.jpeg" alt="Nicolas Stainer" />
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <h4>Nicolas Stainer</h4>
+  <span class="position">Marketing</span>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+<div class="team-member slide-in">
+  ...
+</div>
+
+
+</div>
+
+
+    <div class="team-member slide-in">
+  <div class="member-image-wrapper">
+    <img src="img8.jpg" alt="George Brook" />
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <h4>George Brook</h4>
+  <span class="position">Co-Founder</span>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+<div class="team-member slide-in">
+  ...
+</div>
+
+
+</div>
+
+   <div class="team-member">
+  <div class="member-image-wrapper">
+    <img src="img9.jpg" alt="Emely Hopson" />
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <h4>Emely Hopson</h4>
+  <span class="position">Marketing</span>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
+<div class="team-member slide-in">
+  ...
+</div>
+
+
+</div>
+
+  </div>
+
+
+<!-- Testimonials Section -->
+
+<section id="testimonials" class="testimonial-section">
+<section id="testimonials" style="padding: 80px 10%; background: #f8f8f8; text-align: center;">
+  <h2 style="font-size: 2rem; margin-bottom: 40px;">Testimonials</h2>
+
+  <div class="testimonial-carousel">
+    <div class="testimonial-slide active">
+      <img src="img2.jpeg" alt="Person 1">
+      <p>“Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur unde reprehenderit aperiam quae explicabo animi minima.”</p>
+      <h4>Kyle McDonald</h4>
+    </div>
+
+    <div class="testimonial-slide">
+      <img src="img4.jpg" alt="Person 2">
+      <p>“Voluptatibus rerum, sapiente quasi molestias doloremque vitae dolore dignissimos fugit? Amet asperiores veritatis sequi.”</p>
+      <h4>Sarah Johnson</h4>
+    </div>
+
+    <div class="testimonial-slide">
+      <img src="img6.jpg" alt="Person 3">
+      <p>“Amet dolores excepturi earum unde iusto illum eligendi incidunt consequatur. Eaque laboriosam inventore officia.”</p>
+      <h4>Michael Lee</h4>
+    </div>
+
+    <div class="testimonial-slide">
+      <img src="img8.jpg" alt="Person 4">
+      <p>“Doloremque explicabo animi minima fuga beatae eligendi incidunt consequatur. Amet dolores excepturi earum unde iusto.”</p>
+      <h4>Emily Stone</h4>
+    </div>
+  </div>
+
+  <div class="testimonial-dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+</section>
+</section>
+
+<section id="blog" class="blog-section" style="padding: 60px 20px; text-align: center;">
+  <h2 style="font-size: 2.5em; margin-bottom: 40px;">Blog Posts</h2>
+
+  <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+    
+    <!-- Blog Post 1 -->
+    <div style="max-width: 300px; text-align: left;">
+      <img src="img10.jpg" alt="Cat Blog" style="width: 100%; border-radius: 8px;">
+      <h3>Make Your Business More Profitable</h3>
+      <p style="font-size: 0.9em; color: gray;">Ham Brook • Jan 18, 2019 • <span style="color: blue;">News</span></p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+      <a href="#" style="color: blue;">Continue Reading...</a>
+    </div>
+
+    <!-- Blog Post 2 -->
+    <div style="max-width: 300px; text-align: left;">
+      <img src="img11.jpg" alt="Tablet Blog" style="width: 100%; border-radius: 8px;">
+      <h3>Make Your Business More Profitable</h3>
+      <p style="font-size: 0.9em; color: gray;">James Phelps • Jan 18, 2019 • <span style="color: blue;">News</span></p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+      <a href="#" style="color: blue;">Continue Reading...</a>
+    </div>
+
+    <!-- Blog Post 3 -->
+    <div style="max-width: 300px; text-align: left;">
+      <img src="img12.jpg" alt="Man Blog" style="width: 100%; border-radius: 8px;">
+      <h3>Make Your Business More Profitable</h3>
+      <p style="font-size: 0.9em; color: gray;">James Phelps • Jan 18, 2019 • <span style="color: blue;">News</span></p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+      <a href="#" style="color: blue;">Continue Reading...</a>
+    </div>
+
+  </div>
+</section>
+  
+
+<section id="contact" style="background: linear-gradient(rgba(38, 166, 240, 0.8), rgba(38, 166, 240, 0.8)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb'); background-size: cover; background-position: center; padding: 80px 0; color: white; text-align: center;">
+  <h2 style="font-size: 2.5em; margin-bottom: 40px;">Contact Us</h2>
+
+  <div style="max-width: 600px; margin: 0 auto; background: white; color: black; padding: 30px; border-radius: 8px;">
+    <h3>Contact Form</h3>
+    <form>
+     
+      <div class="name-fields">
+  <input type="text" placeholder="First Name">
+  <input type="text" placeholder="Last Name">
+</div>
+
+      <input type="email" placeholder="Email" style="width: 100%; margin-top: 10px; padding: 10px;">
+      <input type="text" placeholder="Subject" style="width: 100%; margin-top: 10px; padding: 10px;">
+      <textarea placeholder="Leave your message here..." rows="4" style="width: 100%; margin-top: 10px; padding: 10px;"></textarea>
+      <button type="submit" style="margin-top: 15px; background-color: #3f51b5; color: white; border: none; padding: 10px 20px; border-radius: 5px;">Send Message</button>
+    </form>
+  </div>
+</section>
+
+
+<footer style="background-color: #f8f9fa; text-align: center; padding: 30px;">
+  <div style="margin-bottom: 10px;">
+    <a href="#" style="margin: 0 10px; color: #3f51b5;">📘</a>
+    <a href="#" style="margin: 0 10px; color: #3f51b5;">🐦</a>
+    <a href="#" style="margin: 0 10px; color: #3f51b5;">📸</a>
+    <a href="#" style="margin: 0 10px; color: #3f51b5;">💼</a>
+    <a href="#" style="margin: 0 10px; color: #3f51b5;">🔵</a>
+  </div>
+  <p style="font-size: 0.9em;">Copyright ©2025 All rights reserved | This template is made with ❤️ by <a href="https://colorlib.com" target="_blank" style="color: #e91e63;">Colorlib</a></p>
+</footer>
+
+
+
+  <script>
+  // Mobile menu toggle
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('mobileNav').classList.add('open');
+  });
+
+  document.getElementById('closeBtn').addEventListener('click', () => {
+    document.getElementById('mobileNav').classList.remove('open');
+  });
+
+  // Desktop dropdowns
+  document.getElementById('aboutDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('aboutDropdown').classList.toggle('open');
+    document.getElementById('moreLinksDropdown').classList.remove('open');
+  });
+
+  document.getElementById('moreLinksDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('moreLinksDropdown').classList.toggle('open');
+  });
+
+  // Mobile dropdowns
+  document.getElementById('mobileAboutDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('mobileAboutDropdownContent').classList.toggle('open');
+    document.getElementById('mobileMoreLinksDropdownContent').classList.remove('open');
+  });
+
+  document.getElementById('mobileMoreLinksDropdown').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('mobileMoreLinksDropdownContent').classList.toggle('open');
+  });
+
+  // Mobile nav tapped link highlight
+  document.querySelectorAll('.mobile-nav a, .mobile-nav .dropdown-btn').forEach(el => {
+    el.addEventListener('click', () => {
+      el.classList.add('tapped');
+      setTimeout(() => el.classList.remove('tapped'), 200);
+    });
+  });
+
+  // 🔁 Scroll-triggered animation using Intersection Observer
+  const featureCards = document.querySelectorAll('.feature-card');
+  const animatedFeatures = document.querySelectorAll('.animated-feature');
+  const slideInLefts = document.querySelectorAll('.slide-in-left');
+  const slideInRights = document.querySelectorAll('.slide-in-right');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+      } else {
+        entry.target.classList.remove('animate'); // Optional: re-trigger on scroll
+      }
+    });
+  }, { threshold: 0.2 });
+
+  // Attach observer to all elements that need animation
+  featureCards.forEach(card => observer.observe(card));
+  animatedFeatures.forEach(section => observer.observe(section));
+  slideInLefts.forEach(el => observer.observe(el));
+  slideInRights.forEach(el => observer.observe(el));
+</script>
+
+</script>
+
+<script>
+let currentSlide = 0;
+const slides = document.querySelectorAll('.testimonial-slide');
+const dots = document.querySelectorAll('.testimonial-dots .dot');
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+    dots[i].classList.toggle('active', i === index);
+  });
+}
+
+function nextSlide() {
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
+
+// Start auto-slide
+setInterval(nextSlide, 2000);
+
+</script>
+
+</body>
+</html>
